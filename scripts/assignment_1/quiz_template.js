@@ -5,15 +5,15 @@
 // work well with Code Runner. Please run inside a terminal.
 
 // Load dependencies.
-/////////////////////
+/////////////////////node
 
 const path = require("path");
 
 const ethers = require("ethers");
 
 // Adjust path to your .env file.
-const pathToDotEnv = path.join(__dirname, "..", "..", ".env");
-// console.log(pathToDotEnv);
+const pathToDotEnv = path.join(__dirname,"..","..", ".env");
+console.log(pathToDotEnv);
 require("dotenv").config({ path: pathToDotEnv });
 
 const { getUserAnswer, extractQuestion } =
@@ -45,11 +45,18 @@ async function main() {
     // Hint: method `askQuestion()`
 
     // Your code here.
+    const tx = await quizContract.askQuestion();
+
+    const receipt= await tx.wait();
 
     // From the transaction receipt we can extract useful information, such as
     // as the question's text and id that were stored in the logs
     // (we will understand logs in detail later in the course).
     const { text, id } = extractQuestion(quizContract, receipt);
+
+
+    console.log("The Question is: " + text);
+    console.log("The ID of the question is: " + id)
 
     // Now YOU answer the question!
     // Capture user input from the terminal.
@@ -59,10 +66,11 @@ async function main() {
     // Hint: method `answerQuestion`.
 
     // Your code here.
+    quizContract.answerQuestion(id, userAnswer);
 
     // C. Optional. Verify that the answer is correctly stored.
     // Hint: method `getAnswer(questionId)`
-
+    console.log(quizContract.getAnswer(id))
     // Your code here.
 }
 
