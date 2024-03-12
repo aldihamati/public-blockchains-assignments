@@ -56,7 +56,7 @@ async function main() {
 
 
     console.log("The Question is: " + text);
-    console.log("The ID of the question is: " + id)
+    console.log("The ID of the question is: " + id);
 
     // Now YOU answer the question!
     // Capture user input from the terminal.
@@ -66,11 +66,13 @@ async function main() {
     // Hint: method `answerQuestion`.
 
     // Your code here.
-    quizContract.answerQuestion(id, userAnswer);
+    await quizContract.answerQuestion(id, userAnswer);
 
     // C. Optional. Verify that the answer is correctly stored.
     // Hint: method `getAnswer(questionId)`
-    console.log(quizContract.getAnswer(id))
+    [answer, iscorrect] = await quizContract.getAnswer(id);
+    console.log(answer+ "  "+iscorrect);
+    //console.log(answer.storedAnswer+ "  "+answer.answerIsCorrect);
     // Your code here.
 }
 
